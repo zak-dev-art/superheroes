@@ -3,9 +3,8 @@ from app import app
 from models import Hero, Power, HeroPower
 from config import db
 
-# --------------------
 # GET /heroes
-# --------------------
+
 @app.route("/heroes", methods=["GET"])
 def get_heroes():
     heroes = Hero.query.all()
@@ -13,9 +12,9 @@ def get_heroes():
         {"id": h.id, "name": h.name, "super_name": h.super_name} for h in heroes
     ]), 200
 
-# --------------------
 # GET /heroes/<id>
-# --------------------
+
+
 @app.route("/heroes/<int:id>", methods=["GET"])
 def get_hero_by_id(id):
     hero = Hero.query.get(id)
@@ -41,9 +40,8 @@ def get_hero_by_id(id):
         ]
     }), 200
 
-# --------------------
 # GET /powers
-# --------------------
+
 @app.route("/powers", methods=["GET"])
 def get_powers():
     powers = Power.query.all()
@@ -51,9 +49,9 @@ def get_powers():
         {"id": p.id, "name": p.name, "description": p.description} for p in powers
     ]), 200
 
-# --------------------
+
 # GET /powers/<id>
-# --------------------
+
 @app.route("/powers/<int:id>", methods=["GET"])
 def get_power_by_id(id):
     power = Power.query.get(id)
@@ -61,9 +59,9 @@ def get_power_by_id(id):
         return jsonify({"error": "Power not found"}), 404
     return jsonify({"id": power.id, "name": power.name, "description": power.description}), 200
 
-# --------------------
 # PATCH /powers/<id>
-# --------------------
+
+
 @app.route("/powers/<int:id>", methods=["PATCH"])
 def update_power(id):
     power = Power.query.get(id)
@@ -78,9 +76,8 @@ def update_power(id):
     except Exception as e:
         return jsonify({"errors": [str(e)]}), 400
 
-# --------------------
 # POST /hero_powers
-# --------------------
+
 @app.route("/hero_powers", methods=["POST"])
 def create_hero_power():
     data = request.get_json()
@@ -110,3 +107,9 @@ def create_hero_power():
         }), 201
     except Exception as e:
         return jsonify({"errors": [str(e)]}), 400
+
+
+
+@app.route("/")
+def index():
+    return {"message": "Superheroes API is running"}, 200
